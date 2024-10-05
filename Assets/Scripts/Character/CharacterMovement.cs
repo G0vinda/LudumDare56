@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,13 @@ public class CharacterMovement : MonoBehaviour
     public float HorizontalInput {get; set;}
 
     public float frictionStrength;
+    public event Action OnLanding;
     
     private CharacterJumping _characterJumping;
     private Rigidbody2D _rb;
     private Vector2 _extraVelocity;
     private Vector2 _inputVelocity;
+    private bool _isGrounded;
     
     private void Awake()
     {
@@ -36,11 +39,6 @@ public class CharacterMovement : MonoBehaviour
             _characterJumping.Jump();
     }
 
-    public bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundChecker.position, groundCheckRadius, groundLayer) != null;
-    }
-
     private void FixedUpdate()
     {
 
@@ -52,7 +50,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (IsGrounded())
+        CheckIfIsGrounded();
+        if (_isGrounded)
         {
             if (_extraVelocity.y < 0)
             {
@@ -67,6 +66,16 @@ public class CharacterMovement : MonoBehaviour
             _extraVelocity +=Vector2.up*Physics2D.gravity.y*_rb.mass*Time.fixedDeltaTime;
             
         }
+    }
+
+    private void CheckIfIsGrounded()
+    {
+        var isNowGrounded = Physics2D.OverlapCircle(groundChecker.position, groundCheckRadius, groundLayer) != null;
+
+        if (isNowGrounded && !_isGrounded)
+            OnLanding?.Invoke();
+        
+        _isGrounded = isNowGrounded;
     }
 
     public void ApplyForce(Vector2 forceAmount, bool isImpulse)
