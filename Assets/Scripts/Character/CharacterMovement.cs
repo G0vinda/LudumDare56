@@ -52,7 +52,7 @@ public class CharacterMovement : MonoBehaviour
     {
 
         ApplyGravity();
-        //   ApplyFriction();
+        ApplyFriction();
 
         if (!_characterInput.enabled)
         {
@@ -120,7 +120,17 @@ public class CharacterMovement : MonoBehaviour
 
     private void ApplyFriction()
     {
-        _extraVelocity = _extraVelocity - _extraVelocity.normalized * frictionStrength;
+        int direction=0;
+        if (_extraVelocity.x > 0)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+
+        _extraVelocity = Vector2.right*(direction*frictionStrength);
 
         if (_extraVelocity.magnitude < 0.05f)
         {
