@@ -44,6 +44,7 @@ public class CharacterJumping : MonoBehaviour
     public void Jump()
     {
         _jumpsLeft--;
+        _characterMovement.ResetYVelocity();
         _characterMovement.ApplyForce(Vector2.up*Mathf.Sqrt(-2*Physics2D.gravity.y*jumpHeight), false);
     }
     

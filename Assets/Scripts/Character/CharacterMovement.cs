@@ -56,15 +56,11 @@ public class CharacterMovement : MonoBehaviour
             if (_extraVelocity.y < 0)
             {
                 _extraVelocity = new Vector2(_extraVelocity.x, 0);
-
             }
-
         }
         else
         {
-
             _extraVelocity +=Vector2.up*Physics2D.gravity.y*_rb.mass*Time.fixedDeltaTime;
-            
         }
     }
 
@@ -82,6 +78,11 @@ public class CharacterMovement : MonoBehaviour
     {
         float multiplier = isImpulse ? 50 : 1;
         _extraVelocity += forceAmount * multiplier;
+    }
+
+    public void ResetYVelocity()
+    {
+        _extraVelocity.y = 0;
     }
 
     private void ApplyFriction()
