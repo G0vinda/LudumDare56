@@ -1340,6 +1340,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61504e5d46a629644896aaef35e0abe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputLayer:
+    serializedVersion: 2
+    m_Bits: 0
   dashForce: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
