@@ -7,10 +7,12 @@ using UnityEngine;
 public class CharacterInput : MonoBehaviour
 {
     private CharacterMovement _characterMovement;
+    private ActiveAbility _activeAbility;
 
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement>();
+        _activeAbility = GetComponent<ActiveAbility>();
     }
 
     private void Update()
@@ -20,6 +22,11 @@ public class CharacterInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _characterMovement.OnJumpInput();
+        }
+
+        if (Input.GetMouseButtonDown(0) && _activeAbility != null)
+        {
+            _activeAbility.CastAbility(Input.mousePosition);
         }
     }
 }
