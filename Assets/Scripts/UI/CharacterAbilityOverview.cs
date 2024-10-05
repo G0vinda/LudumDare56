@@ -22,12 +22,12 @@ public class CharacterAbilityOverview : MonoBehaviour
     private void UpdateAbilityInfo(CharacterInput character)
     {
         var abilities = character.GetComponents<AbilityDefinition>();
-        var abilityInfos = abilities.Select(abilityDefinition => abilityDefinition.GetInfo()).ToArray();
+        var abilityInfos = abilities.Select(abilityDefinition => abilityDefinition.Info).ToArray();
         
         DisplayAbilityInfo(abilityInfos);
     }
 
-    private void DisplayAbilityInfo(AbilityDefinition.AbilityInfo[] infosToDisplay)
+    private void DisplayAbilityInfo(AbilityInfoSO[] infosToDisplay)
     {
         DeleteCurrentInfo();
         

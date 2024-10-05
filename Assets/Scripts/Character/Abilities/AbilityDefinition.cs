@@ -4,13 +4,7 @@ using UnityEngine;
 
 public abstract class AbilityDefinition : MonoBehaviour
 {
-    public abstract AbilityInfo GetInfo();
-    
-    public struct AbilityInfo
-    {
-        public AbilityType abilityType; 
-        public string infoText;
-    }
+    [field: SerializeField] public AbilityInfoSO Info { get; private set; }
 
     public enum AbilityType
     {

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterMovement))]
 public class CharacterJumping : MonoBehaviour

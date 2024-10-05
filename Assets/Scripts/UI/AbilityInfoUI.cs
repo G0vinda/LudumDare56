@@ -14,10 +14,10 @@ public class AbilityInfoUI : MonoBehaviour
     
     private RectTransform _rectTransform;
     
-    public void Initialize(AbilityDefinition.AbilityInfo info)
+    public void Initialize(AbilityInfoSO info)
     {
         _rectTransform = GetComponent<RectTransform>();
-        abilityInfoText.text = info.infoText;
+        abilityInfoText.text = info.abilityDescription;
 
         abilityInfoText.rectTransform.sizeDelta = new Vector2(maxTextWidth, abilityInfoText.rectTransform.sizeDelta.y);
         abilityInfoText.ForceMeshUpdate();

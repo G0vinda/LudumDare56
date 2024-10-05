@@ -59,5 +59,20 @@ public class CharacterManager : MonoBehaviour
         _currentCharacterIndex = newCharacterIndex;
         
         OnCharacterChanged?.Invoke(_characters[_currentCharacterIndex]);
+        SetSelectionUI();
+    }
+
+    private void SetSelectionUI()
+    {
+        var selected = _characters[_currentCharacterIndex].GetComponentInChildren<SelectionUI>();
+        selected.ShowAsSelected();
+        
+        var nextIndex = (_currentCharacterIndex + 1) % _characters.Count;
+        var next = _characters[nextIndex].GetComponentInChildren<SelectionUI>();
+        next.ShowAsNext();
+        
+        var previousIndex = (_currentCharacterIndex - 1) >= 0 ? _currentCharacterIndex - 1 : _characters.Count - 1;
+        var previous = _characters[previousIndex].GetComponentInChildren<SelectionUI>();
+        previous.ShowAsPrevious();
     }
 }
