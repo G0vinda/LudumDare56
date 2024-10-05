@@ -26,6 +26,7 @@ public class CharacterMovement : MonoBehaviour
     [HideInInspector]
     public float coyoteTime;
 
+    private CharacterInput _characterInput;
 
     [SerializeField]
     private float coyoteTimeLimit = 0.1f;
@@ -33,6 +34,7 @@ public class CharacterMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _characterJumping = GetComponent<CharacterJumping>();
+        _characterInput = GetComponent<CharacterInput>();
     }
     private void Update()
     {
@@ -50,7 +52,13 @@ public class CharacterMovement : MonoBehaviour
     {
 
         ApplyGravity();
-     //   ApplyFriction();
+        //   ApplyFriction();
+
+        if (!_characterInput.enabled)
+        {
+            _inputVelocity = Vector2.zero;
+        }
+
         Vector2 movementAmount= (_inputVelocity + _extraVelocity)*Time.fixedDeltaTime;
         _rb.MovePosition(_rb.position+movementAmount);
     }
