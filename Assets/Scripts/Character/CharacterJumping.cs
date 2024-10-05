@@ -1,34 +1,33 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterMovement))]
 public class CharacterJumping : MonoBehaviour
 {
     [SerializeField] private float jumpHeight;
+    [SerializeField] private int maxExtraJumps;
+    [SerializeField] private float jumpBufferTimeLimit;
 
-    public int MaxJumps
+    public int MaxExtraJumps
     {
-        get => _maxExtraJumps;
+        get => maxExtraJumps;
         set
         {
-            var difference = value - _maxExtraJumps;
-            _maxExtraJumps = value;
+            var difference = value - maxExtraJumps;
+            maxExtraJumps = value;
             _extraJumpsLeft += difference;
         }
     }
-    [SerializeField]
-    private int _maxExtraJumps = 1;
+    
+    public float JumpBufferTime { get; set; }
+    
     private int _extraJumpsLeft;
-
-    [HideInInspector]
-    public float jumpBufferTime;
-
-    [SerializeField]
-    private float jumpBufferTimeLimit;
     private CharacterMovement _characterMovement;
+    
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement>();
-        _extraJumpsLeft = _maxExtraJumps;
+        _extraJumpsLeft = maxExtraJumps;
         _characterMovement.OnLanding += OnLand;
     }
 
@@ -54,7 +53,7 @@ public class CharacterJumping : MonoBehaviour
             return true;
         }
 
-        jumpBufferTime = Time.time + jumpBufferTimeLimit;
+        JumpBufferTime = Time.time + jumpBufferTimeLimit;
         return false;
       
         
@@ -62,7 +61,7 @@ public class CharacterJumping : MonoBehaviour
 
     private void OnLand()
     {
-        if(jumpBufferTime>Time.time)
+        if(JumpBufferTime>Time.time)
         {
             Jump();
         }
@@ -76,6 +75,6 @@ public class CharacterJumping : MonoBehaviour
     
     private void ResetJumpsLeft()
     {
-        _extraJumpsLeft = _maxExtraJumps;
+        _extraJumpsLeft = maxExtraJumps;
     }
 }
