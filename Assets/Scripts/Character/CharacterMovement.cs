@@ -31,6 +31,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
+     //   CheckIfIsGrounded();
     }
 
     public void OnJumpInput()
@@ -53,10 +54,7 @@ public class CharacterMovement : MonoBehaviour
         CheckIfIsGrounded();
         if (_isGrounded)
         {
-            if (_extraVelocity.y < 0)
-            {
-                _extraVelocity = new Vector2(_extraVelocity.x, 0);
-            }
+          
         }
         else
         {
@@ -68,10 +66,19 @@ public class CharacterMovement : MonoBehaviour
     {
         var isNowGrounded = Physics2D.OverlapCircle(groundChecker.position, groundCheckRadius, groundLayer) != null;
 
-        if (isNowGrounded && !_isGrounded)
+        bool isGrounded2= Physics2D.Raycast(groundChecker.position, Vector2.down, 0.1f, groundLayer);
+       
+
+        if (isGrounded2 && !_isGrounded)
+        {
+            ResetYVelocity();
             OnLanding?.Invoke();
-        
-        _isGrounded = isNowGrounded;
+
+        }
+
+
+      
+        _isGrounded = isGrounded2;
     }
 
     public void ApplyForce(Vector2 forceAmount, bool isImpulse)
