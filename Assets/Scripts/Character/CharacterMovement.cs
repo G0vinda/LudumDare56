@@ -21,8 +21,14 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _extraVelocity;
     private Vector2 _inputVelocity;
-    private bool _isGrounded;
-    
+    public bool isGrounded;
+
+    [HideInInspector]
+    public float coyoteTime;
+
+
+    [SerializeField]
+    private float coyoteTimeLimit = 0.1f;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -31,6 +37,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
+     //   CheckIfIsGrounded();
     }
 
     public void OnJumpInput()
@@ -51,12 +58,9 @@ public class CharacterMovement : MonoBehaviour
     private void ApplyGravity()
     {
         CheckIfIsGrounded();
-        if (_isGrounded)
+        if (isGrounded)
         {
-            if (_extraVelocity.y < 0)
-            {
-                _extraVelocity = new Vector2(_extraVelocity.x, 0);
-            }
+          
         }
         else
         {
@@ -68,10 +72,22 @@ public class CharacterMovement : MonoBehaviour
     {
         var isNowGrounded = Physics2D.OverlapCircle(groundChecker.position, groundCheckRadius, groundLayer) != null;
 
-        if (isNowGrounded && !_isGrounded)
+        bool isGrounded2= Physics2D.Raycast(groundChecker.position, Vector2.down, 0.1f, groundLayer);
+       
+
+        if (isGrounded2 && !isGrounded)
+        {
+            ResetYVelocity();
             OnLanding?.Invoke();
-        
-        _isGrounded = isNowGrounded;
+
+        }
+
+
+        if (isGrounded2)
+        {
+            coyoteTime = Time.time+coyoteTimeLimit;
+        }
+        isGrounded = isGrounded2;
     }
 
     public void ApplyForce(Vector2 forceAmount, bool isImpulse)

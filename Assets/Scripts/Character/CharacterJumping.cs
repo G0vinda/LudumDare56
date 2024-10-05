@@ -7,23 +7,29 @@ public class CharacterJumping : MonoBehaviour
 
     public int MaxJumps
     {
-        get => _maxJumps;
+        get => _maxExtraJumps;
         set
         {
-            var difference = value - _maxJumps;
-            _maxJumps = value;
-            _jumpsLeft += difference;
+            var difference = value - _maxExtraJumps;
+            _maxExtraJumps = value;
+            _extraJumpsLeft += difference;
         }
     }
+    [SerializeField]
+    private int _maxExtraJumps = 1;
+    private int _extraJumpsLeft;
 
-    private int _maxJumps = 2;
-    private int _jumpsLeft;
-    
+    [HideInInspector]
+    public float jumpBufferTime;
+
+    [SerializeField]
+    private float jumpBufferTimeLimit;
     private CharacterMovement _characterMovement;
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement>();
-        _jumpsLeft = _maxJumps;
+        _extraJumpsLeft = _maxExtraJumps;
+        _characterMovement.OnLanding += OnLand;
     }
 
     private void OnEnable()
@@ -38,18 +44,38 @@ public class CharacterJumping : MonoBehaviour
 
     public virtual bool CanJump()
     {
-        return _jumpsLeft > 0;
+        if (_characterMovement.isGrounded || _characterMovement.coyoteTime>Time.time)
+        {
+            return true;
+        }
+        else if(_extraJumpsLeft>0)
+        {
+            _extraJumpsLeft--;
+            return true;
+        }
+
+        jumpBufferTime = Time.time + jumpBufferTimeLimit;
+        return false;
+      
+        
+    }
+
+    private void OnLand()
+    {
+        if(jumpBufferTime>Time.time)
+        {
+            Jump();
+        }
     }
 
     public void Jump()
     {
-        _jumpsLeft--;
         _characterMovement.ResetYVelocity();
         _characterMovement.ApplyForce(Vector2.up*Mathf.Sqrt(-2*Physics2D.gravity.y*jumpHeight), false);
     }
     
     private void ResetJumpsLeft()
     {
-        _jumpsLeft = _maxJumps;
+        _extraJumpsLeft = _maxExtraJumps;
     }
 }
