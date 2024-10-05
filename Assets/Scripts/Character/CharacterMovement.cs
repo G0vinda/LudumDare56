@@ -30,6 +30,10 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField]
     private float coyoteTimeLimit = 0.1f;
+
+
+    [SerializeField]
+    private float inputMovementAirMultiplier = 0.5f;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -52,14 +56,26 @@ public class CharacterMovement : MonoBehaviour
     {
 
         ApplyGravity();
-        //   ApplyFriction();
+        ApplyFriction();
 
         if (!_characterInput.enabled)
         {
             _inputVelocity = Vector2.zero;
         }
 
-        Vector2 movementAmount= (_inputVelocity + _extraVelocity)*Time.fixedDeltaTime;
+        Vector2 movementAmount = Vector2.zero;
+
+        if (isGrounded)
+        {
+             movementAmount = (_inputVelocity + _extraVelocity) * Time.fixedDeltaTime;
+
+        }
+        else
+        {
+             movementAmount = (_inputVelocity*inputMovementAirMultiplier + _extraVelocity) * Time.fixedDeltaTime;
+
+        }
+
         _rb.MovePosition(_rb.position+movementAmount);
     }
 
@@ -120,11 +136,21 @@ public class CharacterMovement : MonoBehaviour
 
     private void ApplyFriction()
     {
-        _extraVelocity = _extraVelocity - _extraVelocity.normalized * frictionStrength;
-
-        if (_extraVelocity.magnitude < 0.05f)
+        int direction=0;
+        if (_extraVelocity.x > 0)
         {
-            _extraVelocity = Vector2.zero;
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
+
+        _extraVelocity -= Vector2.right*(direction*frictionStrength);
+
+        if (_extraVelocity.x < 0.05f)
+        {
+            _extraVelocity = new Vector2(0,_extraVelocity.y);
         }
     }
 }
