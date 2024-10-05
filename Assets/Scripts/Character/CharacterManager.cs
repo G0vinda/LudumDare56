@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    public event Action<CharacterInput> OnCharacterChanged;
     private List<CharacterInput> _characters = new();
     private int _currentCharacterIndex;
     private bool _characterAreSetup;
@@ -25,8 +25,7 @@ public class CharacterManager : MonoBehaviour
     {
         _characters = characters;
         _characterAreSetup = true;
-        _currentCharacterIndex = 0;
-        _characters[0].enabled = true;
+        SelectCharacter(0);
     }
 
     private void SelectPreviousCharacter()
@@ -58,5 +57,7 @@ public class CharacterManager : MonoBehaviour
         _characters[_currentCharacterIndex].enabled = false;
         _characters[newCharacterIndex].enabled = true;
         _currentCharacterIndex = newCharacterIndex;
+        
+        OnCharacterChanged?.Invoke(_characters[_currentCharacterIndex]);
     }
 }
