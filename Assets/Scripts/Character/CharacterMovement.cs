@@ -70,12 +70,21 @@ public class CharacterMovement : MonoBehaviour
 
     private void CheckIfIsGrounded()
     {
-        var isNowGrounded = Physics2D.OverlapCircle(groundChecker.position, groundCheckRadius, groundLayer) != null;
+       var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius, groundLayer);
 
-        bool isGrounded2= Physics2D.Raycast(groundChecker.position, Vector2.down, 0.1f, groundLayer);
-       
+        bool isNowGrounded = false;
 
-        if (isGrounded2 && !isGrounded)
+        foreach (var hit in hitList)
+        {
+            if (hit.gameObject != this.gameObject)
+            {
+                isNowGrounded = true;
+            }
+        }
+
+
+
+        if (isNowGrounded && !isGrounded)
         {
             ResetYVelocity();
             OnLanding?.Invoke();
@@ -83,11 +92,11 @@ public class CharacterMovement : MonoBehaviour
         }
 
 
-        if (isGrounded2)
+        if (isNowGrounded)
         {
             coyoteTime = Time.time+coyoteTimeLimit;
         }
-        isGrounded = isGrounded2;
+        isGrounded = isNowGrounded;
     }
 
     public void ApplyForce(Vector2 forceAmount, bool isImpulse)

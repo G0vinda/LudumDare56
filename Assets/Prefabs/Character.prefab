@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 6766938008446938160}
   - component: {fileID: 1662361919449412759}
   - component: {fileID: 855589493366576023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,8 +142,11 @@ MonoBehaviour:
   groundCheckRadius: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   frictionStrength: 0
+  isGrounded: 0
+  coyoteTime: 0
+  coyoteTimeLimit: 0.1
 --- !u!114 &1599471624710033056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +160,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 5
+  _maxExtraJumps: 1
+  jumpBufferTime: 0
+  jumpBufferTimeLimit: 0
 --- !u!114 &6766938008446938160
 MonoBehaviour:
   m_ObjectHideFlags: 0
