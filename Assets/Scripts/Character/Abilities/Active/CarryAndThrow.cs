@@ -18,6 +18,7 @@ public class CarryAndThrow : ActiveAbility
     
     public override void CastAbility(Vector2 inputPosition)
     {
+        Debug.Log("ThrowDirection: " + carryPoint.right);
         if (_grabbedCharacter != null)
         {
             StartCoroutine(Throw());
@@ -58,8 +59,11 @@ public class CarryAndThrow : ActiveAbility
         characterToGrab.ResetYVelocity();
         characterToGrab.ResetXVelocity();
         characterToGrab.enabled = false;
-        characterToGrab.GetComponent<Collider2D>().enabled = false;
         characterToGrab.GetComponent<Rigidbody2D>().isKinematic = true;
+        
+        var grabbedCollider = characterToGrab.GetComponent<Collider2D>();
+        var ownCollider = GetComponent<Collider2D>();
+        Physics2D.IgnoreCollision(ownCollider, grabbedCollider, true);
 
         characterToGrab.transform.position = carryPoint.position;
         characterToGrab.transform.rotation = carryPoint.rotation;
@@ -72,13 +76,16 @@ public class CarryAndThrow : ActiveAbility
     {
         _grabbedCharacter.enabled = true;
         _grabbedCharacter.GetComponent<Rigidbody2D>().isKinematic = false;
-        _grabbedCharacter.ApplyForce(carryPoint.right * throwForce, false);
         _grabbedCharacter.transform.SetParent(null);
+        _grabbedCharacter.ApplyForce(carryPoint.right * throwForce, false);
         
         var characterToRelease = _grabbedCharacter;
         _grabbedCharacter = null;
         yield return new WaitForSeconds(0.3f);
         characterToRelease.transform.rotation = Quaternion.identity;
-        characterToRelease.GetComponent<Collider2D>().enabled = true;
+        
+        var thrownCollider = characterToRelease.GetComponent<Collider2D>();
+        var ownCollider = GetComponent<Collider2D>();
+        Physics2D.IgnoreCollision(ownCollider, thrownCollider, false);
     }
 }

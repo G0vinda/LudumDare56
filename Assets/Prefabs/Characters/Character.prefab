@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 7650079281372684198}
   - component: {fileID: 1599471624710033056}
   - component: {fileID: 6766938008446938160}
+  - component: {fileID: 482653607624685834}
   - component: {fileID: 1662361919449412759}
   - component: {fileID: 4570226412088305189}
   m_Layer: 8
@@ -105,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ff9b1cace5bef4f896e6971795d848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coyoteTimeLimit: 0.1
+  inputMovementAirMultiplier: 0.5
   movementSpeed: 5
   groundChecker: {fileID: 3253621513814931768}
   ceilingChecker: {fileID: 9034174096785532335}
@@ -113,11 +116,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 320
-  frictionStrength: 0
+  frictionStrength: 10
   isGrounded: 0
-  coyoteTime: 0
-  coyoteTimeLimit: 0.1
-  inputMovementAirMultiplier: 0.5
   dustParticles: {fileID: 5114534448439361551}
 --- !u!114 &1599471624710033056
 MonoBehaviour:
@@ -147,6 +147,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cd36ed4f43df4489d649a19c439095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &482653607624685834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783698622869676131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7f3de3054c8b74facc647b285af50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landingAnimationTime: 0.15
+  landingAnimationMinSize: 0.65
+  jumpAnimationTime: 0.2
+  jumpAnimationMaxSize: 1.6
 --- !u!50 &1662361919449412759
 Rigidbody2D:
   serializedVersion: 4

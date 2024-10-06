@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterMovement))]
@@ -7,7 +8,7 @@ public class CharacterJumping : MonoBehaviour
     [SerializeField] private int maxExtraJumps;
     [SerializeField] private float jumpBufferTimeLimit;
 
-
+    public event Action OnJump;
 
     public int MaxExtraJumps
     {
@@ -65,7 +66,6 @@ public class CharacterJumping : MonoBehaviour
     {
         if(JumpBufferTime>Time.time)
         {
-
             Jump();
         }
     }
@@ -76,8 +76,8 @@ public class CharacterJumping : MonoBehaviour
         var jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight);
         var bouncyFactor = _characterMovement.GetGroundBouncyFactor();
         _characterMovement.ApplyForce(Vector2.up*jumpForce*bouncyFactor, false);
-       // _characterMovement.ApplyForce(Vector2.up * Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight) * Physics2D.gravity.normalized.y, false);
         jumpingParticle.Play();
+        OnJump?.Invoke();
     }
 
     private void ResetJumpsLeft()

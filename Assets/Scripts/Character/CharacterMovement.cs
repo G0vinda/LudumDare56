@@ -38,6 +38,7 @@ public class CharacterMovement : MonoBehaviour
         _characterJumping = GetComponent<CharacterJumping>();
         _characterInput = GetComponent<CharacterInput>();
     }
+    
     private void Update()
     {
         if (!_characterInput.enabled) 
@@ -71,8 +72,7 @@ public class CharacterMovement : MonoBehaviour
             }
         }
     }
-
-
+    
     public void OnJumpInput()
     {
         if (_characterJumping.CanJump())
@@ -112,13 +112,10 @@ public class CharacterMovement : MonoBehaviour
              movementAmount = (_inputVelocity*inputMovementAirMultiplier + _extraVelocity) * Time.fixedDeltaTime;
         }
         
-        Debug.Log("Should move by: " + movementAmount);
         _rb.MovePosition(_rb.position + movementAmount);
     }
-
-
-
-    public void CheckIfHittingCeiling()
+    
+    private void CheckIfHittingCeiling()
     {
         var hitlist= Physics2D.OverlapCircleAll(ceilingChecker.position, ceilingCheckerRadius, groundLayer);
         bool hitCeiling = false;
@@ -134,6 +131,7 @@ public class CharacterMovement : MonoBehaviour
             _extraVelocity.y = -2;
         }
     }
+    
     private void ApplyGravity()
     {
         if (isGrounded)
@@ -210,7 +208,7 @@ public class CharacterMovement : MonoBehaviour
 
         _extraVelocity -= Vector2.right * (direction*frictionStrength) * Time.fixedDeltaTime;
 
-        if (_extraVelocity.x < 0.05f)
+        if (Mathf.Abs(_extraVelocity.x) < 0.05f)
         {
             _extraVelocity = new Vector2(0, _extraVelocity.y);
         }
