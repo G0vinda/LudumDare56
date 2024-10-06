@@ -45,14 +45,33 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update()
     {
+        HorizontalInput = Input.GetAxisRaw("Horizontal");
         _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
+
+        if(HorizontalInput>0)
+        {
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, transform.localEulerAngles.z);
+        }
+        else if(HorizontalInput<0)
+        {
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 180,transform.localEulerAngles.z);
+
+        }
+
         if (Math.Abs(HorizontalInput) > 0.1f)
         {
-            dustParticles.Play();
+            if (!dustParticles.isPlaying && isGrounded)
+            {
+                dustParticles.Play();
+
+            }
         }
         else
         {
-            dustParticles.Stop();
+            if (dustParticles.isPlaying)
+            {
+                dustParticles.Stop();
+            }
         }
 
      //   CheckIfIsGrounded();
