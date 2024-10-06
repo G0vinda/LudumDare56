@@ -47,7 +47,7 @@ public class CharacterJumping : MonoBehaviour
 
     public virtual bool CanJump()
     {
-        if (_characterMovement.isGrounded || _characterMovement.coyoteTime>Time.time)
+        if (_characterMovement.isGrounded || _characterMovement.CoyoteTime>Time.time)
         {
             return true;
         }

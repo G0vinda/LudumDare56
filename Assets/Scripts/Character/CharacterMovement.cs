@@ -1,42 +1,37 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterJumping))]
 public class CharacterMovement : MonoBehaviour
 {
+    [SerializeField] private float coyoteTimeLimit = 0.1f;
+    [SerializeField] private float inputMovementAirMultiplier = 0.5f;
+    
     public float movementSpeed;
     public Transform groundChecker;
     public float groundCheckRadius;
     public LayerMask groundLayer;
+    public float frictionStrength;
+    public bool isGrounded;
+    public ParticleSystem dustParticles;
     
     public float HorizontalInput {get; set;}
-
-    public float frictionStrength;
+    public float CoyoteTime { get; set; }
+    
     public event Action OnLanding;
     
     private CharacterJumping _characterJumping;
     private Rigidbody2D _rb;
     private Vector2 _extraVelocity;
     private Vector2 _inputVelocity;
-    public bool isGrounded;
-
-    [HideInInspector]
-    public float coyoteTime;
-
     private CharacterInput _characterInput;
-
-    [SerializeField]
-    private float coyoteTimeLimit = 0.1f;
-
-
-    [SerializeField]
-    private float inputMovementAirMultiplier = 0.5f;
-
-
-    public ParticleSystem dustParticles;
+    private List<Collider2D> _hitGroundColliders = new();
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -63,7 +58,6 @@ public class CharacterMovement : MonoBehaviour
             if (!dustParticles.isPlaying && isGrounded)
             {
                 dustParticles.Play();
-
             }
         }
         else
@@ -73,8 +67,6 @@ public class CharacterMovement : MonoBehaviour
                 dustParticles.Stop();
             }
         }
-
-     //   CheckIfIsGrounded();
     }
 
     public void OnJumpInput()
@@ -99,37 +91,31 @@ public class CharacterMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         ApplyGravity();
         ApplyFriction();
 
         if (!_characterInput.enabled)
-        {
             _inputVelocity = Vector2.zero;
-        }
 
-        Vector2 movementAmount = Vector2.zero;
-
+        Vector2 movementAmount;
         if (isGrounded)
         {
              movementAmount = (_inputVelocity + _extraVelocity) * Time.fixedDeltaTime;
-
         }
         else
         {
              movementAmount = (_inputVelocity*inputMovementAirMultiplier + _extraVelocity) * Time.fixedDeltaTime;
-
         }
-
+        
+        Debug.Log("Should move by: " + movementAmount);
         _rb.MovePosition(_rb.position+movementAmount);
     }
 
     private void ApplyGravity()
     {
-        CheckIfIsGrounded();
         if (isGrounded)
         {
-          
+            CoyoteTime = Time.time+coyoteTimeLimit;
         }
         else
         {
@@ -137,32 +123,38 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void CheckIfIsGrounded()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius, groundLayer);
-
-        bool isNowGrounded = false;
-
-        foreach (var hit in hitList)
+        if (LayerIsInLayerMask(other.gameObject.layer, groundLayer))
         {
-            if (hit.gameObject != this.gameObject)
+            var collisionNormal = other.contacts[0].normal;
+            if (collisionNormal == Vector2.up)
             {
-                isNowGrounded = true;
+                ResetYVelocity();
+                _hitGroundColliders.Add(other.collider);
+
+                if (!isGrounded)
+                {
+                    isGrounded = true;
+                    OnLanding?.Invoke();    
+                }
             }
         }
-
-        if (isNowGrounded && !isGrounded)
+    }
+    
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (_hitGroundColliders.Contains(other.collider))
         {
-            ResetYVelocity();
-            OnLanding?.Invoke();
-
+            _hitGroundColliders.Remove(other.collider);
+            if (_hitGroundColliders.Count == 0)
+                isGrounded = false;
         }
+    }
 
-        if (isNowGrounded)
-        {
-            coyoteTime = Time.time+coyoteTimeLimit;
-        }
-        isGrounded = isNowGrounded;
+    private bool LayerIsInLayerMask(int layer, LayerMask layerMask)
+    {
+        return ((1 << layer) & layerMask) != 0;
     }
 
     public void ApplyForce(Vector2 forceAmount, bool isImpulse)
