@@ -24,6 +24,7 @@ public class CharacterMovement : MonoBehaviour
     public float CoyoteTime { get; set; }
     
     public event Action OnLanding;
+    public event Action<float> OnRotated;
 
     private CharacterJumping _characterJumping;
     private Rigidbody2D _rb;
@@ -49,12 +50,15 @@ public class CharacterMovement : MonoBehaviour
 
         if (HorizontalInput > 0)
         {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, transform.localEulerAngles.z);
+            var yRotation = 0;
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRotation, transform.localEulerAngles.z);
+            OnRotated?.Invoke(yRotation);
         }
         else if (HorizontalInput < 0)
         {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 180, transform.localEulerAngles.z);
-
+            var yRotation = 180;
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRotation, transform.localEulerAngles.z);
+            OnRotated?.Invoke(yRotation);
         }
 
         if (Math.Abs(HorizontalInput) > 0.1f)
