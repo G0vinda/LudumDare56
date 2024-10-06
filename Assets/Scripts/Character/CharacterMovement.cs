@@ -34,6 +34,9 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField]
     private float inputMovementAirMultiplier = 0.5f;
+
+
+    public ParticleSystem dustParticles;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -43,6 +46,15 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
         _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
+        if (Math.Abs(HorizontalInput) > 0.1f)
+        {
+            dustParticles.Play();
+        }
+        else
+        {
+            dustParticles.Stop();
+        }
+
      //   CheckIfIsGrounded();
     }
 
