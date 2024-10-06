@@ -68,11 +68,13 @@ public class CharacterJumping : MonoBehaviour
     public void Jump()
     {
         _characterMovement.ResetYVelocity();
-        var jumpForce = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight);
+        var jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight) * Physics2D.gravity.normalized.y;
         var bouncyFactor = _characterMovement.GetGroundBouncyFactor();
         _characterMovement.ApplyForce(Vector2.up*jumpForce*bouncyFactor, false);
+        _characterMovement.ApplyForce(Vector2.up * Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight) * Physics2D.gravity.normalized.y, false);
+
     }
-    
+
     private void ResetJumpsLeft()
     {
         _extraJumpsLeft = maxExtraJumps;
