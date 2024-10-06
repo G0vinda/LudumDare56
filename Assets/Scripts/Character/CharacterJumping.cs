@@ -7,6 +7,8 @@ public class CharacterJumping : MonoBehaviour
     [SerializeField] private int maxExtraJumps;
     [SerializeField] private float jumpBufferTimeLimit;
 
+
+
     public int MaxExtraJumps
     {
         get => maxExtraJumps;
@@ -22,7 +24,10 @@ public class CharacterJumping : MonoBehaviour
     
     private int _extraJumpsLeft;
     private CharacterMovement _characterMovement;
-    
+
+
+    public ParticleSystem jumpingParticle;
+
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement>();
@@ -68,11 +73,13 @@ public class CharacterJumping : MonoBehaviour
     public void Jump()
     {
         _characterMovement.ResetYVelocity();
-        var jumpForce = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight);
+        var jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight);
         var bouncyFactor = _characterMovement.GetGroundBouncyFactor();
         _characterMovement.ApplyForce(Vector2.up*jumpForce*bouncyFactor, false);
+       // _characterMovement.ApplyForce(Vector2.up * Mathf.Sqrt(2 * Mathf.Abs(Physics2D.gravity.y) * jumpHeight) * Physics2D.gravity.normalized.y, false);
+        jumpingParticle.Play();
     }
-    
+
     private void ResetJumpsLeft()
     {
         _extraJumpsLeft = maxExtraJumps;
