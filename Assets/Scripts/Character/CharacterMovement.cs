@@ -13,8 +13,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float inputMovementAirMultiplier = 0.5f;
     
     public float movementSpeed;
-    public Transform groundChecker;
-    public float groundCheckRadius;
+    public Transform groundChecker, ceilingChecker;
+    public float groundCheckRadius, ceilingCheckerRadius;
     public LayerMask groundLayer;
     public float frictionStrength;
     public bool isGrounded;
@@ -24,7 +24,7 @@ public class CharacterMovement : MonoBehaviour
     public float CoyoteTime { get; set; }
     
     public event Action OnLanding;
-    
+
     private CharacterJumping _characterJumping;
     private Rigidbody2D _rb;
     private Vector2 _extraVelocity;
@@ -40,16 +40,19 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (!_characterInput.enabled) 
+            return;
+        
         HorizontalInput = Input.GetAxisRaw("Horizontal");
-        _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
+        _inputVelocity = new Vector2(HorizontalInput * movementSpeed, 0);
 
-        if(HorizontalInput>0)
+        if (HorizontalInput > 0)
         {
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 0, transform.localEulerAngles.z);
         }
-        else if(HorizontalInput<0)
+        else if (HorizontalInput < 0)
         {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 180,transform.localEulerAngles.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, 180, transform.localEulerAngles.z);
 
         }
 
@@ -69,9 +72,10 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+
     public void OnJumpInput()
     {
-        if(_characterJumping.CanJump())
+        if (_characterJumping.CanJump())
             _characterJumping.Jump();
     }
 
@@ -80,7 +84,7 @@ public class CharacterMovement : MonoBehaviour
         var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius);
         foreach (var item in hitList)
         {
-            if(item.TryGetComponent<BeingBouncy>(out var bouncy))
+            if (item.TryGetComponent<BeingBouncy>(out var bouncy))
             {
                 return bouncy.BounceFactor;
             }
@@ -93,7 +97,8 @@ public class CharacterMovement : MonoBehaviour
     {
         ApplyGravity();
         ApplyFriction();
-
+        CheckIfHittingCeiling();
+        
         if (!_characterInput.enabled)
             _inputVelocity = Vector2.zero;
 
@@ -108,9 +113,27 @@ public class CharacterMovement : MonoBehaviour
         }
         
         Debug.Log("Should move by: " + movementAmount);
-        _rb.MovePosition(_rb.position+movementAmount);
+        _rb.MovePosition(_rb.position + movementAmount);
     }
 
+
+
+    public void CheckIfHittingCeiling()
+    {
+        var hitlist= Physics2D.OverlapCircleAll(ceilingChecker.position, ceilingCheckerRadius, groundLayer);
+        bool hitCeiling = false;
+        foreach (var hit in hitlist)
+        {
+            if (hit.gameObject != this.gameObject)
+            {
+                hitCeiling = true;
+            }
+        }
+        if (hitCeiling)
+        {
+            _extraVelocity.y = -2;
+        }
+    }
     private void ApplyGravity()
     {
         if (isGrounded)
@@ -119,7 +142,7 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            _extraVelocity +=Vector2.up*Physics2D.gravity.y*_rb.mass*Time.fixedDeltaTime;
+            _extraVelocity += Vector2.up * Physics2D.gravity.y * _rb.mass * Time.fixedDeltaTime;
         }
     }
 
@@ -175,7 +198,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void ApplyFriction()
     {
-        int direction=0;
+        int direction = 0;
         if (_extraVelocity.x > 0)
         {
             direction = 1;
@@ -185,11 +208,11 @@ public class CharacterMovement : MonoBehaviour
             direction = -1;
         }
 
-        _extraVelocity -= Vector2.right*(direction*frictionStrength) * Time.fixedDeltaTime;
+        _extraVelocity -= Vector2.right * (direction*frictionStrength) * Time.fixedDeltaTime;
 
         if (_extraVelocity.x < 0.05f)
         {
-            _extraVelocity = new Vector2(0,_extraVelocity.y);
+            _extraVelocity = new Vector2(0, _extraVelocity.y);
         }
     }
 }
