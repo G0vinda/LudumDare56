@@ -45,6 +45,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (!_characterInput.enabled) return;
         HorizontalInput = Input.GetAxisRaw("Horizontal");
         _inputVelocity = new Vector2(HorizontalInput*movementSpeed, 0);
 
