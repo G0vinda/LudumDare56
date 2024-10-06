@@ -53,15 +53,14 @@ public class CharacterJumping : MonoBehaviour
         }
 
         JumpBufferTime = Time.time + jumpBufferTimeLimit;
-        return false;
-      
-        
+        return false; 
     }
 
     private void OnLand()
     {
         if(JumpBufferTime>Time.time)
         {
+
             Jump();
         }
     }
@@ -69,7 +68,9 @@ public class CharacterJumping : MonoBehaviour
     public void Jump()
     {
         _characterMovement.ResetYVelocity();
-        _characterMovement.ApplyForce(Vector2.up*Mathf.Sqrt(-2*Physics2D.gravity.y*jumpHeight), false);
+        var jumpForce = Mathf.Sqrt(-2 * Physics2D.gravity.y * jumpHeight);
+        var bouncyFactor = _characterMovement.GetGroundBouncyFactor();
+        _characterMovement.ApplyForce(Vector2.up*jumpForce*bouncyFactor, false);
     }
     
     private void ResetJumpsLeft()

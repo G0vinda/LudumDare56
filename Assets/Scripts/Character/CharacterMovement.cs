@@ -52,6 +52,20 @@ public class CharacterMovement : MonoBehaviour
             _characterJumping.Jump();
     }
 
+    public float GetGroundBouncyFactor()
+    {
+        var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius);
+        foreach (var item in hitList)
+        {
+            if(item.TryGetComponent<BeingBouncy>(out var bouncy))
+            {
+                return bouncy.BounceFactor;
+            }
+        }
+
+        return 1f;
+    }
+
     private void FixedUpdate()
     {
 
@@ -94,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void CheckIfIsGrounded()
     {
-       var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius, groundLayer);
+        var hitList = Physics2D.OverlapCircleAll(groundChecker.position, groundCheckRadius, groundLayer);
 
         bool isNowGrounded = false;
 
@@ -106,15 +120,12 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
-
-
         if (isNowGrounded && !isGrounded)
         {
             ResetYVelocity();
             OnLanding?.Invoke();
 
         }
-
 
         if (isNowGrounded)
         {
