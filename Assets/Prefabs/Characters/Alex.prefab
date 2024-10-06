@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2937782746059537646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3907087647771012012}
+  m_Layer: 8
+  m_Name: CarryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3907087647771012012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2937782746059537646}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.1207975, w: 0.9926772}
+  m_LocalPosition: {x: 0.64, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1664099029867440756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 13.876}
 --- !u!1001 &3618761196468554962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10,7 +41,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1783698622869676131, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
       propertyPath: m_Name
-      value: Chris
+      value: Alex
       objectReference: {fileID: 0}
     - target: {fileID: 2319702933632696708, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
       propertyPath: m_Sprite
@@ -74,6 +105,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2675276041205573286, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3907087647771012012}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1783698622869676131, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 550623519013849732}
   m_SourcePrefab: {fileID: 100100000, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
+--- !u!4 &1664099029867440756 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2675276041205573286, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
+  m_PrefabInstance: {fileID: 3618761196468554962}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3096387819044203697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1783698622869676131, guid: 4d75b6c0d2f8a1948a10f38c0e05834e, type: 3}
+  m_PrefabInstance: {fileID: 3618761196468554962}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &550623519013849732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3096387819044203697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fda5f9b401345c428723337d9cc58c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Info>k__BackingField: {fileID: 11400000, guid: 52371521c63676943b06ab04129f49bd, type: 2}
+  inputLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  grabDistance: 2
+  carryPoint: {fileID: 3907087647771012012}
+  throwForce: 10

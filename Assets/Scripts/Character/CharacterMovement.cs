@@ -145,6 +145,11 @@ public class CharacterMovement : MonoBehaviour
         _extraVelocity.y = 0;
     }
 
+    public void ResetXVelocity()
+    {
+        _extraVelocity.x = 0;
+    }
+
     private void ApplyFriction()
     {
         int direction=0;
@@ -152,12 +157,12 @@ public class CharacterMovement : MonoBehaviour
         {
             direction = 1;
         }
-        else
+        else if(_extraVelocity.x < 0)
         {
             direction = -1;
         }
 
-        _extraVelocity -= Vector2.right*(direction*frictionStrength);
+        _extraVelocity -= Vector2.right*(direction*frictionStrength) * Time.fixedDeltaTime;
 
         if (_extraVelocity.x < 0.05f)
         {

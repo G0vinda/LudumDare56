@@ -107,10 +107,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 320
-  frictionStrength: 0
+  frictionStrength: 10
   isGrounded: 0
   coyoteTime: 0
   coyoteTimeLimit: 0.1
+  inputMovementAirMultiplier: 0.5
 --- !u!114 &1599471624710033056
 MonoBehaviour:
   m_ObjectHideFlags: 0
