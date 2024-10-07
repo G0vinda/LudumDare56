@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,13 @@ public class LevelManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && currentLevel != null)
+            RestartLevel();
+    }
+
     public void ResetLevel()
     {
         foreach(var character in spawnedCharacters)
@@ -31,7 +38,7 @@ public class LevelManager : MonoBehaviour
         }
         spawnedCharacters.Clear();
         
-        currentLevel.DestoryLevel();
+        currentLevel.DestroyLevel();
         OnLevelDestroyed.Invoke();
     }
 
@@ -49,7 +56,7 @@ public class LevelManager : MonoBehaviour
     {
         if (currentLevel != null)
         {
-           currentLevel.DestoryLevel();
+           ResetLevel();
         }
         
         currentLevelPrefab = levelObject;
