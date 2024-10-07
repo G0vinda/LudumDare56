@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coyoteTimeLimit: 0.1
-  inputMovementAirMultiplier: 0.5
+  inputMovementAirMultiplier: 1
   movementSpeed: 5
   groundChecker: {fileID: 3253621513814931768}
   ceilingChecker: {fileID: 9034174096785532335}

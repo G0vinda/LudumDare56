@@ -6,9 +6,25 @@ public class CharacterManager : MonoBehaviour
 {
     public event Action<CharacterInput> OnCharacterChanged;
     private List<CharacterInput> _characters = new();
+    
     private int _currentCharacterIndex;
     private bool _characterAreSetup;
 
+
+    public static CharacterManager instance;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -23,7 +39,8 @@ public class CharacterManager : MonoBehaviour
 
     public void SetupCharacters(List<CharacterInput> characters)
     {
-        _characters = characters;
+        _characters.Clear();
+        _characters.AddRange(characters);
         _characterAreSetup = true;
         SelectCharacter(0);
     }
@@ -75,4 +92,8 @@ public class CharacterManager : MonoBehaviour
         var previous = _characters[previousIndex].GetComponentInChildren<SelectionUI>();
         previous.ShowAsPrevious();
     }
+
+
+
+   
 }

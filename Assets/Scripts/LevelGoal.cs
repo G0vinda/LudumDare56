@@ -11,6 +11,7 @@ public class LevelGoal : MonoBehaviour
         if (other.TryGetComponent<CharacterMovement>(out _))
         {
             Debug.Log("--- You won this level ---");
+            LevelManager.instance.WinLevel();
         }
     }
 }
