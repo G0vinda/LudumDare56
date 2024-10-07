@@ -14,7 +14,7 @@ public class CharacterReward : MonoBehaviour
 
     public void Initialize(CharacterInput characterPrefab)
     {
-        characterName.name = characterPrefab.name;
-        characterImage.sprite = characterPrefab.GetComponent<SpriteRenderer>().sprite;
+        characterName.text = characterPrefab.gameObject.name;
+        characterImage.sprite = characterPrefab.GetComponentInChildren<SpriteRenderer>().sprite;
     }
 }
