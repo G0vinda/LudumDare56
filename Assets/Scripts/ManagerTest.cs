@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ManagerTest : MonoBehaviour
 {
     [SerializeField] private List<CharacterInput> characterInputs;
-    [SerializeField] private CharacterManager characterManager;
+    [FormerlySerializedAs("characterManager")] [SerializeField] private CharacterSelectionManager characterSelectionManager;
 
     private void Start()
     {
-        characterManager.SetupCharacters(characterInputs);
+        characterSelectionManager.SetupCharacters(characterInputs);
     }
 }

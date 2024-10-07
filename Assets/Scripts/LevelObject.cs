@@ -27,7 +27,7 @@ public class LevelObject : MonoBehaviour
     }
 
 
-    public void DestoryLevel()
+    public void DestroyLevel()
     {
         Destroy(this.gameObject);
     }
