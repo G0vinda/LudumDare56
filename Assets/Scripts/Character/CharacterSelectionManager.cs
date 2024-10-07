@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterSelectionManager : MonoBehaviour
 {
     public event Action<CharacterInput> OnCharacterChanged;
     private List<CharacterInput> _characters = new();
@@ -10,13 +10,13 @@ public class CharacterManager : MonoBehaviour
     private int _currentCharacterIndex;
     private bool _characterAreSetup;
 
-    public static CharacterManager instance;
+    public static CharacterSelectionManager Instance;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -92,8 +92,4 @@ public class CharacterManager : MonoBehaviour
         var previous = _characters[previousIndex].GetComponentInChildren<SelectionUI>();
         previous.ShowAsPrevious();
     }
-
-
-
-   
 }

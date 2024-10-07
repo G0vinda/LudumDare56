@@ -3,20 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CharacterAbilityOverview : MonoBehaviour
 {
     [SerializeField] private AbilityInfoUI abilityInfoUIPrefab;
-    [SerializeField] private CharacterManager characterManager;
+    [FormerlySerializedAs("characterManager")] [SerializeField] private CharacterSelectionManager characterSelectionManager;
 
     private void OnEnable()
     {
-        characterManager.OnCharacterChanged += UpdateAbilityInfo;
+        characterSelectionManager.OnCharacterChanged += UpdateAbilityInfo;
     }
     
     private void OnDisable()
     {
-        characterManager.OnCharacterChanged -= UpdateAbilityInfo;
+        characterSelectionManager.OnCharacterChanged -= UpdateAbilityInfo;
     }
     
     private void UpdateAbilityInfo(CharacterInput character)

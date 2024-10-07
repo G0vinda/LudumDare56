@@ -11,8 +11,6 @@ public class LevelManager : MonoBehaviour
     public LevelObject currentLevelPrefab; 
     [HideInInspector] public List<CharacterInput> spawnedCharacters = new ();
     
-    [SerializeField] private CharacterManager characterManager;
-    
     private void Awake()
     {
         if (instance == null)
@@ -29,13 +27,13 @@ public class LevelManager : MonoBehaviour
     {
         foreach(var character in spawnedCharacters)
         {
-            Destroy(character);
+            Destroy(character.gameObject);
         }
-
+        spawnedCharacters.Clear();
+        
         currentLevel.DestoryLevel();
         OnLevelDestroyed.Invoke();
     }
-
 
     public void WinLevel()
     {
@@ -43,19 +41,17 @@ public class LevelManager : MonoBehaviour
         // gives rewards
         //loads next level 
         
+        ResetLevel();
         GameManager.instance.StartRandomLevel();
     }
 
     public void LoadLevel(LevelObject levelObject)
     {
-        //instantiate the level objects 
-        //transform player position into the spawn position of the object 
-        // give inputs to player 
         if (currentLevel != null)
         {
-
            currentLevel.DestoryLevel();
         }
+        
         currentLevelPrefab = levelObject;
         currentLevel = Instantiate(levelObject);
         currentLevel.SetupLevel(GameManager.instance.TranslateRoundToDifficulty(GameManager.instance.currentRound)) ;
@@ -69,9 +65,6 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnPlayers(LevelObject levelObject)
     {
-        //spawn every character 1 by 1 to the spawn position on the level objects
-       // CharacterManager.instance._characters
-
         for(int i = 0; i < 3; i++)
         {
             CharacterInput character = Instantiate(GameManager.instance.SelectedCharacterPrefabs[i]);
@@ -79,14 +72,8 @@ public class LevelManager : MonoBehaviour
             character.transform.position = levelObject.spawnPositions[i].position;
             spawnedCharacters.Add(character);
         }
-        
-        characterManager.SetupCharacters(spawnedCharacters);
 
-        CharacterManager.instance.SetupCharacters(spawnedCharacters);
+        CharacterSelectionManager.Instance.SetupCharacters(spawnedCharacters);
         CameraManager.Instance.SwitchCameraFollowTarget(spawnedCharacters[0].transform);
     }
-
-
-
-    
 }
