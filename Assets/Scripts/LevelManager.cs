@@ -7,15 +7,12 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
     public UnityEvent OnLevelDestroyed;
-
-    [HideInInspector]
-    public LevelObject currentLevel;
-
-    public LevelObject currentLevelPrefab;
-
-
-    [HideInInspector]
-    public List<CharacterInput> spawnedCharacters = new List<CharacterInput>();
+    [HideInInspector] public LevelObject currentLevel;
+    public LevelObject currentLevelPrefab; 
+    [HideInInspector] public List<CharacterInput> spawnedCharacters = new ();
+    
+    [SerializeField] private CharacterManager characterManager;
+    
     private void Awake()
     {
         if (instance == null)
@@ -82,6 +79,8 @@ public class LevelManager : MonoBehaviour
             character.transform.position = levelObject.spawnPositions[i].position;
             spawnedCharacters.Add(character);
         }
+        
+        characterManager.SetupCharacters(spawnedCharacters);
 
         CharacterManager.instance.SetupCharacters(spawnedCharacters);
         CameraManager.Instance.SwitchCameraFollowTarget(spawnedCharacters[0].transform);
