@@ -70,6 +70,8 @@ public class CarryAndThrow : ActiveAbility
         characterToGrab.transform.SetParent(carryPoint);
 
         _grabbedCharacter = characterToGrab;
+        
+        AudioPlayer.instance.PlayAudio(SoundID.Grab);
     }
 
     private IEnumerator Throw()
@@ -81,6 +83,9 @@ public class CarryAndThrow : ActiveAbility
         
         var characterToRelease = _grabbedCharacter;
         _grabbedCharacter = null;
+        
+        AudioPlayer.instance.PlayAudio(SoundID.Throw);
+        
         yield return new WaitForSeconds(0.3f);
         characterToRelease.transform.rotation = Quaternion.identity;
         

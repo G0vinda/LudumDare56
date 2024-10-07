@@ -19,5 +19,7 @@ public class DashTowardsMouseAbility : ActiveAbility
         
         var dashDirection = (hitResult.point - (Vector2)transform.position).normalized;
         _characterMovement.ApplyForce(dashDirection * dashForce, false);
+        
+        AudioPlayer.instance.PlayAudio(SoundID.Dash);
     }
 }

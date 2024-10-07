@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.Serialization;
 public class SwitchTeleport : ActiveAbility
 {
     [SerializeField] private LayerMask characterLayer;
-    
+
     public override void CastAbility(Vector2 inputPosition)
     {
         var ray = Camera.main.ScreenPointToRay(inputPosition);
@@ -21,5 +22,7 @@ public class SwitchTeleport : ActiveAbility
         otherCharacter.position = transform.position;
         transform.position = otherPosition;
         gameObject.SetActive(true);
+        
+        AudioPlayer.instance.PlayAudio(SoundID.Teleport);
     }
 }

@@ -78,6 +78,8 @@ public class CharacterJumping : MonoBehaviour
         _characterMovement.ApplyForce(Vector2.up*jumpForce*bouncyFactor, false);
         jumpingParticle.Play();
         OnJump?.Invoke();
+        
+        AudioPlayer.instance.PlayAudio(SoundID.Jump);
     }
 
     private void ResetJumpsLeft()

@@ -161,7 +161,9 @@ public class CharacterMovement : MonoBehaviour
                 if (!isGrounded)
                 {
                     isGrounded = true;
-                    OnLanding?.Invoke();    
+                    OnLanding?.Invoke();  
+                    
+                    AudioPlayer.instance.PlayAudio(SoundID.HitGround);
                 }
             }
         }
