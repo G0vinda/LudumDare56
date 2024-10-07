@@ -10,9 +10,7 @@ public class CharacterManager : MonoBehaviour
     private int _currentCharacterIndex;
     private bool _characterAreSetup;
 
-
     public static CharacterManager instance;
-
 
     private void Awake()
     {
@@ -25,6 +23,7 @@ public class CharacterManager : MonoBehaviour
             Destroy(this);
         }
     }
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -72,10 +71,11 @@ public class CharacterManager : MonoBehaviour
         }
         
         _characters[_currentCharacterIndex].enabled = false;
-        _characters[newCharacterIndex].enabled = true;
+        var newCharacter = _characters[newCharacterIndex];
+        newCharacter.enabled = true;
         _currentCharacterIndex = newCharacterIndex;
-        
-        OnCharacterChanged?.Invoke(_characters[_currentCharacterIndex]);
+        CameraManager.Instance.SwitchCameraFollowTarget(newCharacter.transform);
+        OnCharacterChanged?.Invoke(newCharacter);
         SetSelectionUI();
     }
 

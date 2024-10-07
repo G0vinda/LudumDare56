@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class CameraManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
+
     public void SwitchCameraFollowTarget(Transform target)
     {
         cam.Follow = target;
