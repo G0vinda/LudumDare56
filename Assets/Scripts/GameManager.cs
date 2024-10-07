@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CharacterInput[] availableCharacterPrefabs;
     [SerializeField] private CharacterReward characterRewardPrefab;
-    
-    public List<CharacterInput> SelectedCharacterPrefabs { get; set; }
+
+    public List<CharacterInput> SelectedCharacterPrefabs { get; set; } = new();
     
     public static GameManager instance;
     

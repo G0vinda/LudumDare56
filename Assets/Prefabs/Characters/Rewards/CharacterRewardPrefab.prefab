@@ -571,7 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e66939c0fc29a46b1fd59a77510d60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 3433744010075587076, guid: 438a954737fd9354393e88fc8b2b9c85, type: 3}
+  characterPrefab: {fileID: 0}
   selectButton: {fileID: 7637115041874317073}
   characterName: {fileID: 1870227848932573308}
   characterImage: {fileID: 907230154598408940}
