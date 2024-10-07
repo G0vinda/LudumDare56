@@ -27,11 +27,7 @@ public class LevelManager : MonoBehaviour
             Destroy(this);
         }
     }
-
-
-
-
-
+    
     public void ResetLevel()
     {
         foreach(var character in spawnedCharacters)
@@ -74,23 +70,21 @@ public class LevelManager : MonoBehaviour
         LoadLevel(currentLevelPrefab);
     }
 
-
-    public void SpawnPlayers(LevelObject levelObject)
+    private void SpawnPlayers(LevelObject levelObject)
     {
         //spawn every character 1 by 1 to the spawn position on the level objects
        // CharacterManager.instance._characters
 
         for(int i = 0; i < 3; i++)
         {
-            CharacterInput character=Instantiate(GameManager.instance.characterPrefabs[i]);
+            CharacterInput character = Instantiate(GameManager.instance.SelectedCharacterPrefabs[i]);
 
             character.transform.position = levelObject.spawnPositions[i].position;
             spawnedCharacters.Add(character);
         }
 
         CharacterManager.instance.SetupCharacters(spawnedCharacters);
-        CameraManager.instance.SwitchCameraFollowTarget(spawnedCharacters[0].transform);
-
+        CameraManager.Instance.SwitchCameraFollowTarget(spawnedCharacters[0].transform);
     }
 
 

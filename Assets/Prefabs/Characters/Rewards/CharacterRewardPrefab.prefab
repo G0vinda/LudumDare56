@@ -522,7 +522,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3705424538315075461}
   - component: {fileID: 6997730391789829258}
-  - component: {fileID: 7878140776879548515}
   - component: {fileID: 7350942833617832425}
   m_Layer: 5
   m_Name: CharacterRewardPrefab
@@ -560,36 +559,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4952879328831070663}
   m_CullTransparentMesh: 1
---- !u!114 &7878140776879548515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4952879328831070663}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &7350942833617832425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,6 +573,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPrefab: {fileID: 3433744010075587076, guid: 438a954737fd9354393e88fc8b2b9c85, type: 3}
   selectButton: {fileID: 7637115041874317073}
+  characterName: {fileID: 1870227848932573308}
+  characterImage: {fileID: 907230154598408940}
 --- !u!1 &5670272091843250550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +994,7 @@ GameObject:
   - component: {fileID: 1899349379463827989}
   - component: {fileID: 907230154598408940}
   m_Layer: 5
-  m_Name: CharacterIcon
+  m_Name: CharacterImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

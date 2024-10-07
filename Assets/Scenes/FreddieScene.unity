@@ -714,10 +714,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelList: {fileID: 11400000, guid: 638ff9f1d35af2240b88a967c7af934d, type: 2}
-  characterList: {fileID: 11400000, guid: d9e164228e0c2864e98a1e454364fbd9, type: 2}
-  characterPrefabs: []
   currentRound: 0
   rewardGrid: {fileID: 766800037}
+  characterPrefabs:
+  - {fileID: 8057100702447067362, guid: 4ae02f1f220dc76409d82be4ba639e27, type: 3}
+  - {fileID: 4961914975690100171, guid: 232215f1c04815143ae9a9375d67b985, type: 3}
+  - {fileID: 7846237221408245549, guid: 50b1b920e4054f64aaef88768c4c826c, type: 3}
+  - {fileID: 3433744010075587076, guid: 438a954737fd9354393e88fc8b2b9c85, type: 3}
+  - {fileID: 2335443161362026565, guid: 645ba82f51af3e044950a01b7fb3fda7, type: 3}
+  - {fileID: 3752619114397454776, guid: a80fd8bc7d847134a869618cce904932, type: 3}
+  characterRewardPrefab: {fileID: 7350942833617832425, guid: 6a8a81800c4d48045ac694dcef8272b9, type: 3}
 --- !u!1 &1473754535
 GameObject:
   m_ObjectHideFlags: 0
